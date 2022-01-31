@@ -1,16 +1,29 @@
 *{
-  margin: 0;
+  margin-left: 1;
+ 
 };
 
 .app {
-  background-color: fafafa;
+  background-color: whitesmoke;
+  display: grid;
+  place-items: center;
 }
 
 .app_header {
-  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: 98%;
+  background-color: whitesmoke;
   padding: 20px;
   border-bottom: 1px solid lightblue;
   object-fit: contain;
+}
+
+.app_notLogin {
+  margin-bottom: 30px;
 }
 
 .app_headerImage {
@@ -23,3 +36,4 @@
   display: flex;
   flex-direction: column;
 };
+

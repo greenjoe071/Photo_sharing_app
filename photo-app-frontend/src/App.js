@@ -6,7 +6,13 @@ import Login from './components/Login';
 import { makeStyles } from '@material-ui/core/styles';  //sign-in modal
 import  Modal from '@material-ui/core/Modal';        //sign-in modal
 import { Button, Input } from '@material-ui/core';      //sign-in modal
-import { auth } from './firebase'  //adding authorization
+import  { auth }  from './firebase'  //adding authorization
+
+import ImageUpload from './components/ImageUpload';
+
+import axios from 'axios';
+
+
 
 
 function getModalStyle() {
@@ -26,6 +32,7 @@ const useStyles = makeStyles((theme) =>({
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     boxShadow: theme.shadows[5],
+    
     padding: theme.spacing(2, 4, 3),
   },
 }));
@@ -39,8 +46,15 @@ function App() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const fetchPosts = async () => {
+    await axios.get("/sync").then(response => setPosts(response.data))
+  }
+    useEffect(() => {
+      fetchPosts() },[])
+          
+      
+      // for posts
 
-          // for posts
   const [posts, setPosts] = useState ([
     {
       username: "Joe G" + "  ",
@@ -70,7 +84,9 @@ function App() {
     }},
 
     [user, username])
-    
+  
+
+    // SIGN UP
     const signUp = (e) => {
       e.preventDefault()
       auth.createUserWithEmailAndPassword(email, password)
@@ -80,20 +96,26 @@ function App() {
       setOpen(false)
     }
 
-
-
+    // SIGN IN
+    const [openSignIn, setOpenSignIn] = useState(false)
+    const signIn = e => {
+      e.preventDefault()
+      auth.signInWithEmailAndPassword(email, password)
+      .catch(error => alert(error.message))
+      setOpenSignIn(false)
+}
 
   return (
-    <div className="App">
+    <div className='app'>
       
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
           <form class Name = "app_signup">
               <center>
-                <img class="app_headerImage" src="logo192.png"
+                <img className="app_headerImage" src="logo192.png"
                 alt="Header" />
               </center>
-                <Input placeholder="User Name"
+                <Input placeholder="Username"
                   type="text"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
@@ -107,27 +129,57 @@ function App() {
                   type="password"
                   value = {password}
                   onChange = {e => setPassword(e.target.value)}
-                />
-                <Button type='Submit' onClick={signUp}>Sign Up</Button>
+                /> <p></p>
+                <Button type='submit' onClick={signUp}>Sign Up</Button>
           </form>
           </div>
       </Modal>
-      
+      <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
+        <div style={modalStyle} className={classes.paper}>
+          <form className='app_signup'>
+            <center>
+              <img className='app_headerImage' src="logo192.png" alt="Header" />
+            </center>
+            <Input placeholder='Email'
+              type='text'
+              value={email}
+              onChange={e => setEmail(e.target.value)} />
+            <Input placeholder='password'
+            type='password'
+            value={password}
+            onChange={e => setPassword(e.target.value)} />
+            <Button type='Submit' onClick={signIn}>Sign In</Button>
+          </form>
+        </div>
+      </Modal>
+
         <div className="app_header">
           <img className="app_headerImage" src="camera_icon.png" alt="header" />
+        {user ? <Button onClick={() => auth.signOut()}>Log Out</Button> :( 
+          <div className='app_loginContainer'>
+
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button onClick={() => setOpen(true)}>Sign Up</Button>
+         </div>  )}
+      
         </div>
 
-        {user ? <Button onClick={() => auth.signOut()}>Log Out</Button> : <Button onClick={() => setOpen(true)}>Sign Up</Button>}
-    
-      <Button onClick={() => setOpen(true)}>Sign Up</Button>
-
+      <div className='app_posts'>
         {posts.map(post => (
-          <Post username={post.username} caption={post.caption} imageUrl={post.imageUrl} />
+          <Post key = {post._id}
+          username={post.username} 
+          caption={post.caption} 
+          imageUrl={post.imageUrl} />
         ))}
+      </div>
+      {user?.displayName ? <ImageUpload username={user.displayName} /> :
+      <h3 className='app_notLogin'>Login Needed To Upload</h3>}
     </div>
 
 
   );
-}
+} 
+
+
 
 export default App;

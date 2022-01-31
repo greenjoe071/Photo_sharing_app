@@ -1,15 +1,12 @@
-
-
-
-//this block is using the createUserWithEmailAndPassword auth from firebase
-import firebase from 'firebase';
+//forthe createUserWithEmailAndPassword auth from firebase
+import firebase from 'firebase/compat/app';
 
 //This block is part of my attempt to use google authentication for signin
 // import firebase from 'firebase/app';
-// import 'firebase/auth'; // for authentication
-// import 'firebase/storage'; // for storage
-// import 'firebase/database'; //real time database
-// import 'firebase/firestore'; // the cloud
+import 'firebase/compat/auth'; // for authentication
+import 'firebase/compat/storage'; // for storage
+import 'firebase/compat/database'; //real time database
+import 'firebase/compat/firestore'; // the cloud
 
 
 // the following two const (firebaseConfig, firebaseApp) for createUserWithEmailAndPassword from firebasee
@@ -27,7 +24,7 @@ const db = firebaseApp.firestore()
 const auth = firebase.auth()
 const storage = firebase.storage()
 
-export { db, auth, storage }
+export { db, auth, storage };
 
 
 //This block is part of my attempt to use google authentication for signin
