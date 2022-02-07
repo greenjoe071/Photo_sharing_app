@@ -2,17 +2,14 @@
 import './App.css';
 import Post from './components/Post';
 import React, { useEffect, useState } from 'react';
-import Login from './components/Login';
+// import Login from './components/Login'; //part of an attempt for google auth
 import { makeStyles } from '@material-ui/core/styles';  //sign-in modal
 import  Modal from '@material-ui/core/Modal';        //sign-in modal
 import { Button, Input } from '@material-ui/core';      //sign-in modal
 import  { auth }  from './firebase'  //adding authorization
-
 import ImageUpload from './components/ImageUpload';
-
-import axios from 'axios';
-
-
+import axios from './axios';
+import Pusher from 'pusher-js';
 
 
 function getModalStyle() {
@@ -28,7 +25,7 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) =>({
   paper: {
     position: 'absolute',
-    width: 400,
+    width: 300,
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     boxShadow: theme.shadows[5],
@@ -36,6 +33,11 @@ const useStyles = makeStyles((theme) =>({
     padding: theme.spacing(2, 4, 3),
   },
 }));
+
+
+
+
+
 
 function App() {
           //for the sign in Modal
@@ -46,23 +48,17 @@ function App() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const fetchPosts = async () => {
-    await axios.get("/sync").then(response => setPosts(response.data))
-  }
-    useEffect(() => {
-      fetchPosts() },[])
-          
+  
       
-      // for posts
-
+      // hard coded posts - posts are objects in an array
   const [posts, setPosts] = useState ([
     {
-      username: "Joe G" + "  ",
-      caption: "This is the text for the caption that I've hard coded.  I'm using the useState hook in React... these posts are objects in an array",
+      username: "Joe G ",
+      caption: "Welcome to The Photo Sharing App",
       imageUrl: "https://www.theclickcommunity.com/blog/wp-content/uploads/2018/05/How-to-take-creative-flower-pictures-by-Lucy-Ketchum-17.jpg"
     },
     {
-      username: "User two" + " ",
+      username: "User two ",
       caption: "Another catchy caption here",
       imageUrl: "https://clicklovegrow.com/wp-content/uploads/2019/06/62018319_10156565426351775_3190533176141283328_o.jpg"
     }
@@ -83,7 +79,43 @@ function App() {
       unsubscribe()
     }},
 
-    [user, username])
+    [user, username]);
+
+     // trying to Axios to handle my HTTP Requests
+    const fetchPosts = async () => 
+     await axios.get("/sync").then((response) => {
+       console.log(response);
+       setPosts(response.data);
+     });
+
+
+useEffect(() =>{
+  const pusher = new Pusher ('cfd4921e7187e348e2fb', {
+    cluster: "us2"
+  });
+
+  const channel = pusher.subscribe('posts');
+  channel.bind('inserted', (data) => {
+    console.log("data received", data);
+    fetchPosts();
+  });
+}, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  //Trying to get PUSHER to work on my frontend  
+  // useEffect(() => {
+  //     const channel = pusher.subscribe('posts');
+  //     channel.bind('inserted', (data) => {
+  //       alert(JSON.stringify(data))
+  //     });
+  //      }, [] ) 
+
+      //  useEffect(() => {fetchPosts()
+       
+      //    }, [] ) 
+          
   
 
     // SIGN UP
@@ -106,32 +138,31 @@ function App() {
 }
 
   return (
-    <div className='app'>
-      
+    <div className="app">
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <form class Name = "app_signup">
-              <center>
+          <center><form class Name = "app_signup">
+              
                 <img className="app_headerImage" src="logo192.png"
-                alt="Header" />
-              </center>
+                alt="Header" /><br></br>
+              
                 <Input placeholder="Username"
                   type="text"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
-                />
+                /><br></br>
                 <Input placeholder="Email"
                   type='text'
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                />
+                /><br></br>
                 <Input placeholder="Password"
                   type="password"
                   value = {password}
                   onChange = {e => setPassword(e.target.value)}
-                /> <p></p>
+                /> <br></br>
                 <Button type='submit' onClick={signUp}>Sign Up</Button>
-          </form>
+          </form></center>
           </div>
       </Modal>
       <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
@@ -154,7 +185,7 @@ function App() {
       </Modal>
 
         <div className="app_header">
-          <img className="app_headerImage" src="camera_icon.png" alt="header" />
+          <img className="app_headerImage" src="camera-logos.png" alt="header" />
         {user ? <Button onClick={() => auth.signOut()}>Log Out</Button> :( 
           <div className='app_loginContainer'>
 
@@ -166,10 +197,12 @@ function App() {
 
       <div className='app_posts'>
         {posts.map(post => (
-          <Post key = {post._id}
-          username={post.username} 
+          <Post 
+          user={user}
+          key={post._id}
+          username={post.user + " "} 
           caption={post.caption} 
-          imageUrl={post.imageUrl} />
+          imageUrl={post.image} />
         ))}
       </div>
       {user?.displayName ? <ImageUpload username={user.displayName} /> :

@@ -3,7 +3,8 @@ import  mongoose from 'mongoose';
 const postsModel = mongoose.Schema ({
     caption: String,
     user: String,
-    image: String
-})
+    image: String,
+    comments: [],
+});
 
-export default mongoose.model('posts', postsModel)
+export default mongoose.model('posts', postsModel);

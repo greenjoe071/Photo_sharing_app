@@ -1,12 +1,14 @@
-*{
+/* *{
   margin-left: 1;
  
-};
+}; */
 
 .app {
-  background-color: whitesmoke;
+  background-color:white;
   display: grid;
+  padding-bottom: 100px;
   place-items: center;
+ 
 }
 
 .app_header {
@@ -16,7 +18,7 @@
   top: 0;
   z-index: 1;
   width: 98%;
-  background-color: whitesmoke;
+  background-color: rgb(248, 247, 247);
   padding: 20px;
   border-bottom: 1px solid lightblue;
   object-fit: contain;
@@ -28,7 +30,7 @@
 
 .app_headerImage {
   object-fit: contain;
-  margin-left: 10px;
+  margin-left: 2px;
   height: 40px;
 }
 

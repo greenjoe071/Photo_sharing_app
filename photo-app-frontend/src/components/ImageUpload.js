@@ -20,7 +20,7 @@ const ImageUpload = ({ username }) => {
     }
 
 const handleUpload = () => {
-    const uploadTask = storage.ref(`images/${image.name}`).put(image); //axios is handling this
+    const uploadTask = storage.ref(`images/${image.name}`).put(image); //status bar
     uploadTask.on("state_changed",
     (snapshot) => {
         const progress = Math.round(
@@ -51,6 +51,7 @@ const handleUpload = () => {
     };
 
     return (
+        <div className="footer">
         <div className="imageUpload">
             <progress className="imageUpload_progress" value={progress} max="100" />
             <input  type="text"
@@ -63,6 +64,7 @@ const handleUpload = () => {
                     onChange={handleChange} />
             <button className="imageUpload_button"
                 onClick={handleUpload}>Upload</button>
+        </div>
         </div>
     )
 }
