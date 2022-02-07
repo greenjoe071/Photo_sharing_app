@@ -1,0 +1,50 @@
+
+
+.imageUpload_progress {
+    width: 100%;
+    margin-bottom: 10px;
+    
+}
+
+.imageUpload_input {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.imageUpload_file {
+    margin-bottom: 10px;
+}
+
+.imageUpload_button {
+    border: none;
+    color: lightblue;
+    background-color: #6082a3;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bolder;
+    font-size: 0.9rem;
+
+}
+
+.imageUpload_button:hover {
+    color: #6082a3;
+    background-color: lightblue;
+}
+
+.imageUpload {
+   
+    background-color: rgb(248, 247, 247);
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+}
+.footer {
+    position: fixed;
+    background-color: rgb(248, 247, 247);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 150px;
+}
