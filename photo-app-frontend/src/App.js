@@ -2,7 +2,13 @@
 import './App.css';
 import Post from './components/Post';
 import React, { useEffect, useState } from 'react';
+
 // import Login from './components/Login'; //part of an attempt for google auth
+
+
+
+
+
 import { makeStyles } from '@material-ui/core/styles';  //sign-in modal
 import  Modal from '@material-ui/core/Modal';        //sign-in modal
 import { Button, Input } from '@material-ui/core';      //sign-in modal
@@ -25,10 +31,12 @@ function getModalStyle() {
 const useStyles = makeStyles((theme) =>({
   paper: {
     position: 'absolute',
-    width: 300,
+    width: 400,
+    
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     boxShadow: theme.shadows[5],
+    
     
     padding: theme.spacing(2, 4, 3),
   },
@@ -52,16 +60,16 @@ function App() {
       
       // hard coded posts - posts are objects in an array
   const [posts, setPosts] = useState ([
-    {
-      username: "Joe G ",
-      caption: "Welcome to The Photo Sharing App",
-      imageUrl: "https://www.theclickcommunity.com/blog/wp-content/uploads/2018/05/How-to-take-creative-flower-pictures-by-Lucy-Ketchum-17.jpg"
-    },
-    {
-      username: "User two ",
-      caption: "Another catchy caption here",
-      imageUrl: "https://clicklovegrow.com/wp-content/uploads/2019/06/62018319_10156565426351775_3190533176141283328_o.jpg"
-    }
+    // {
+    //   username: "Joe G ",
+    //   caption: "Welcome to The Photo Sharing App",
+    //   imageUrl: "https://www.theclickcommunity.com/blog/wp-content/uploads/2018/05/How-to-take-creative-flower-pictures-by-Lucy-Ketchum-17.jpg"
+    // },
+    // {
+    //   username: "User two ",
+    //   caption: "Another catchy caption here",
+    //   imageUrl: "https://clicklovegrow.com/wp-content/uploads/2019/06/62018319_10156565426351775_3190533176141283328_o.jpg"
+    // }
   ])
 
   const [user, setUser] = useState(null)
@@ -104,19 +112,7 @@ useEffect(() =>{
   useEffect(() => {
     fetchPosts();
   }, []);
-  //Trying to get PUSHER to work on my frontend  
-  // useEffect(() => {
-  //     const channel = pusher.subscribe('posts');
-  //     channel.bind('inserted', (data) => {
-  //       alert(JSON.stringify(data))
-  //     });
-  //      }, [] ) 
 
-      //  useEffect(() => {fetchPosts()
-       
-      //    }, [] ) 
-          
-  
 
     // SIGN UP
     const signUp = (e) => {
@@ -137,77 +133,178 @@ useEffect(() =>{
       setOpenSignIn(false)
 }
 
+  // return (
+  //   <div className="app">
+      
+  //     <Modal open={open} onClose={() => setOpen(false)}>
+  //       <div style={modalStyle} className={classes.paper}>
+  //         <center><form class Name = "app_signup">
+              
+  //               <img className="app_headerImage" src="rpics.png"
+  //               alt="Header" /><br></br>
+              
+  //               <Input placeholder="Username"
+  //                 type="text"
+  //                 value={username}
+  //                 onChange={e => setUsername(e.target.value)}
+  //               />
+  //               <Input placeholder="Email"
+  //                 type='text'
+  //                 value={email}
+  //                 onChange={e => setEmail(e.target.value)}
+  //               /><br></br>
+  //               <Input placeholder="Password"
+  //                 type="password"
+  //                 value = {password}
+  //                 onChange = {e => setPassword(e.target.value)}
+  //               /> <br></br>
+  //               <Button type='submit' onClick={signUp}>Sign Up</Button>
+  //         </form></center>
+  //         </div>
+  //     </Modal>
+  //     <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
+  //       <div style={modalStyle} className={classes.paper}>
+  //         <form className='app_signup'>
+  //           <center>
+  //             <img className='app_headerImage' src="flower_icon.png" alt="Header" />
+  //           </center>
+  //           <Input placeholder='Email'
+  //             type='text'
+  //             value={email}
+  //             onChange={e => setEmail(e.target.value)} />
+  //           <Input placeholder='password'
+  //           type='password'
+  //           value={password}
+  //           onChange={e => setPassword(e.target.value)} />
+  //           <Button type='Submit' onClick={signIn}>Sign In</Button>
+  //         </form>
+  //       </div>
+  //     </Modal>
+
+
+  //       <div className="app_header">
+  //         <img className="app_headerImage" src="rpics.png" alt="header" />
+  //       {user ? <Button variant="outlined" color="error" onClick={() => auth.signOut()}>Log Out</Button> :( 
+  //         <div className='app_loginContainer'>
+
+  //           <Button onClick={() => setOpenSignIn(true)}>Log In</Button>
+  //           <Button onClick={() => setOpen(true)}>Sign Up</Button>
+        //  </div>  )}
+      
+        // </div>
+
+        // {user?.displayName ? <ImageUpload username={user.displayName} /> :
+        
+      //       <div className='app_notLogin'>
+      //         <img src="rpicslogo.gif"/>
+      //       </div>
+            
+            
+      
+      
+      // }
+
+
+  //     <div className='app_posts'>
+  //       {posts.map(post => (
+  //         <Post 
+  //         user={user}
+  //         key={post._id}
+  //         username={post.user + " "} 
+  //         caption={post.caption} 
+  //         imageUrl={post.image} />
+  //       ))}
+  //     </div>
+      
+  //   </div>
+
+
+  // );
+
   return (
     <div className="app">
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <center><form class Name = "app_signup">
-              
-                <img className="app_headerImage" src="logo192.png"
-                alt="Header" /><br></br>
-              
-                <Input placeholder="Username"
+          <form className="app__signup">
+              <center>
+                <img className="app__headerImage" src="rpics.png"       alt="Header" />
+              </center>
+                <Input placeholder="username"
                   type="text"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
-                /><br></br>
-                <Input placeholder="Email"
-                  type='text'
+                />
+                <Input placeholder="email"
+                  type="text"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                /><br></br>
-                <Input placeholder="Password"
+                />
+                <Input placeholder="password"
                   type="password"
-                  value = {password}
-                  onChange = {e => setPassword(e.target.value)}
-                /> <br></br>
-                <Button type='submit' onClick={signUp}>Sign Up</Button>
-          </form></center>
-          </div>
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <Button type="submit" onClick={signUp}>Sign Up</Button>
+            </form>
+        </div>
       </Modal>
       <Modal open={openSignIn} onClose={() => setOpenSignIn(false)}>
         <div style={modalStyle} className={classes.paper}>
-          <form className='app_signup'>
+          <form className="app__signup">
             <center>
-              <img className='app_headerImage' src="logo192.png" alt="Header" />
+              <img className="app__headerImage"
+                src="rpics.png"
+                alt="Header"
+              />
             </center>
-            <Input placeholder='Email'
-              type='text'
-              value={email}
-              onChange={e => setEmail(e.target.value)} />
-            <Input placeholder='password'
-            type='password'
-            value={password}
-            onChange={e => setPassword(e.target.value)} />
-            <Button type='Submit' onClick={signIn}>Sign In</Button>
+              <Input placeholder="email"
+                type="text"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <Input placeholder="password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <Button type="submit" onClick={signIn}>Sign In</Button>
           </form>
         </div>
       </Modal>
-
-        <div className="app_header">
-          <img className="app_headerImage" src="camera-logos.png" alt="header" />
-        {user ? <Button onClick={() => auth.signOut()}>Log Out</Button> :( 
-          <div className='app_loginContainer'>
-
+      <div className="app__header">
+        <img className="app__headerImage" src="flower_Icon.png" alt="Header" />
+        {user ? <Button onClick={() => auth.signOut()}>Logout</Button> :(
+          <div className="app__loginContainer">
             <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
             <Button onClick={() => setOpen(true)}>Sign Up</Button>
-         </div>  )}
-      
-        </div>
-
-      <div className='app_posts'>
-        {posts.map(post => (
-          <Post 
-          user={user}
-          key={post._id}
-          username={post.user + " "} 
-          caption={post.caption} 
-          imageUrl={post.image} />
-        ))}
+          </div>
+        )}
       </div>
-      {user?.displayName ? <ImageUpload username={user.displayName} /> :
-      <h3 className='app_notLogin'>Login Needed To Upload</h3>}
+
+      {user?.displayName ? <ImageUpload username={user.displayName} /> : 
+        <div className="app__notLogin"><img src="rpicslogo.gif"/></div>}
+
+
+
+
+
+  <div className="app__posts">
+          {posts.map(post => (
+            <Post 
+              key={post._id} 
+              username={post.user} 
+              caption={post.caption} 
+              imageUrl={post.image} 
+            />
+          ))}
+        </div>
+      
+        
+
+        
+        
     </div>
+
 
 
   );
