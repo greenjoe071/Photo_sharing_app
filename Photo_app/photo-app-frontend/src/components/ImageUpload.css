@@ -1,0 +1,52 @@
+.footer {
+  position:fixed;
+  left: 1;
+  right: 1;
+  bottom: 0;
+  height: 140px;
+  background-color: rgb(248, 247, 247);
+  
+  border-top: 1px solid lightblue;
+  box-shadow: 5px -5px 20px grey;
+  display: flex; 
+justify-content: center;
+align-items: center;
+flex-direction:column;
+padding-left: 30px;
+padding-right: 30px;
+width: 770px;
+
+}
+
+
+.imageUpload {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  width: 100%;
+  margin: 10px auto;
+}
+.imageUpload__progress{
+  width: 100%;
+  margin-bottom: 10px;
+}
+.imageUpload__input{
+  padding: 28px;
+  margin-bottom: 10px;
+}
+.imageUpload__file {
+  margin-bottom: 10px;
+}
+.imageUpload__button {
+  border: none;
+  color: lightgray;
+  background-color: #6082a3;
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bolder;
+  font-size: 0.9rem;
+}
+.imageUpload__button:hover {
+  color: #6082a3;
+  background-color: lightgray;
+}
